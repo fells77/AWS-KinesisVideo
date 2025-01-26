@@ -3,14 +3,14 @@
 
 # Read-in ARN list
 def main():
-    with open('kinesisVideo/files/kvs-arns.txt', 'r') as list:
+    with open('files/kvs-arns.txt', 'r') as list:
         for arn in list:
             arn = arn.rstrip('\n') # EOL not being detected
-            kvsGetVersion(arn)
+            kvsDecisioning(arn)
 
 
-# Get version value for ARN and inspect retention
-def kvsGetVersion(arn):
+# Get version value, retention value, and disposition
+def kvsDecisioning(arn):
     import boto3
 
     client = boto3.client('kinesisvideo')
@@ -29,7 +29,7 @@ def kvsGetVersion(arn):
         printer(arn, version, retention)
 
 
-# Just go ahead and do the needful
+# Modify retention setting or die (this may happen due to excessive API calls)
 def updateRetention(arn, version, defined):
     import boto3
 
@@ -46,13 +46,12 @@ def updateRetention(arn, version, defined):
             Operation = direction,
             DataRetentionChangeInHours = 24
         )
-        with open('kinesisVideo/files/audit.txt', 'a+') as file:
-            file.write(arn, " - Success")
+        with open('files/audit.txt', 'a+') as file:
+            file.write(arn + " - Success\n")
     except Exception as e: 
-        with open('kinesisVideo/files/error.txt', 'a+') as file:
-            file.write(arn, " - ", e)
+        with open('files/error.txt', 'a+') as file:
+            file.write(arn + " - " + e + "\n")
         exit()
-
 
 
 # If the retention period isn't one of the defaults we're expecting (0, 48), print the stream info
@@ -61,8 +60,9 @@ def printer(arn, version, retention):
     import json
 
     results = {"ARN:": arn, "Version:": version, "Retention:": retention}
-    with open('kinesisVideo/files/kvs-version.json', 'a+', encoding='utf-8') as file:
+    with open('files/kvs-version.json', 'a+', encoding='utf-8') as file:
         json.dump(results, file, ensure_ascii= True, indent=2)
+        file.write('\n')
 
 
 
