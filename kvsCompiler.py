@@ -38,13 +38,21 @@ def updateRetention(arn, version, defined):
     else:
         direction = 'DECREASE_DATA_RETENTION'
 
-    client = boto3.client('kinesisvideo')
-    response = client.update_data_retention(
-        StreamARN = arn,
-        CurrentVersion = version,
-        Operation = direction,
-        DataRetentionChangeInHours = 24
-    )
+    try:
+        client = boto3.client('kinesisvideo')
+        response = client.update_data_retention(
+            StreamARN = arn,
+            CurrentVersion = version,
+            Operation = direction,
+            DataRetentionChangeInHours = 24
+        )
+        with open('kinesisVideo/files/audit.txt', 'a+') as file:
+            file.write(arn, " - Success")
+    except Exception as e: 
+        with open('kinesisVideo/files/error.txt', 'a+') as file:
+            file.write(arn, " - ", e)
+        exit()
+
 
 
 # If the retention period isn't one of the defaults we're expecting (0, 48), print the stream info
