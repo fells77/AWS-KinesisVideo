@@ -6,7 +6,7 @@ This repo will allow users to update as many KVS as they want so long as the ARN
 The configs are set to look for two conditions only: KVS with retention not set (0 hours) or set for 2 days (48 hours), which we suspect is the bulk of what this specific tool was designed to remediate.  Anything else will be ID'd and output (`kvs-version.json`) for additional mitigation.
 
 ## Things to keep in mind
-- Functions leveraging AWS are set to use the `default` profile -- you'll need to run `export AWS_PROFILE=your-profile` before executing
+- Set your AWS profile info @ top (using `default` profile and `us-east-1` region as default)
 - Don't forget the proxy!
 - Each ARN will trigger two API calls -- you may need to break up the list in order to not breach limits!
 - You'll need to leverage the path/file in the `main` function as this path is used elsewhere (or mod all to your own)
