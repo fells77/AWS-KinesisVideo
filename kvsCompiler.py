@@ -18,7 +18,7 @@ def kvsDecisioning(arn):
     import boto3
     session = boto3.Session(profile_name=profile)   # Set @ L5; 'default' is default
     
-    client = session.client('kinesisvideo', region_name=region) # Set on L6; 'us-east-1- is default
+    client = session.client('kinesisvideo', region_name=region) # Set on L6; 'us-east-1' is default
     response = client.describe_stream(
         StreamARN = arn
     )
