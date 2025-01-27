@@ -1,5 +1,5 @@
 # Kinesis video streams (KVS) have a "Version" value which is required for updating the retention period and 
-# possibly other fields which is separate from the ARN
+# possibly other fields which are separate from the ARN
 
 # Read-in ARN list
 def main():
