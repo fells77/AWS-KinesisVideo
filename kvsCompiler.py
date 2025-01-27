@@ -45,7 +45,7 @@ def updateRetention(arn, version, defined):
         direction = 'DECREASE_DATA_RETENTION'
 
     try:
-        client = session.client('kinesisvideo', region_name=region) # Set on L6; 'us-east-1- is default
+        client = session.client('kinesisvideo', region_name=region) # Set on L6; 'us-east-1' is default
         response = client.update_data_retention(
             StreamARN = arn,
             CurrentVersion = version,
