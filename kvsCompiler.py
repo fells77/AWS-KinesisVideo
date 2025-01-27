@@ -1,6 +1,10 @@
 # Kinesis video streams (KVS) have a "Version" value which is required for updating the retention period and 
 # possibly other fields which are separate from the ARN
 
+# Set AWS params for boto
+profile = 'default'
+region = 'us-east-1'
+
 # Read-in ARN list
 def main():
     with open('files/kvs-arns.txt', 'r') as list:
@@ -12,8 +16,9 @@ def main():
 # Get version value, retention value, and disposition
 def kvsDecisioning(arn):
     import boto3
-
-    client = boto3.client('kinesisvideo')
+    session = boto3.Session(profile_name=profile)   # Set @ L5; 'default' is default
+    
+    client = session.client('kinesisvideo', region_name=region) # Set on L6; 'us-east-1- is default
     response = client.describe_stream(
         StreamARN = arn
     )
@@ -32,6 +37,7 @@ def kvsDecisioning(arn):
 # Modify retention setting or die (this may happen due to excessive API calls)
 def updateRetention(arn, version, defined):
     import boto3
+    session = boto3.Session(profile_name=profile)   # Set @ L5; 'default' is default
 
     if defined == False:
         direction = 'INCREASE_DATA_RETENTION'
@@ -39,7 +45,7 @@ def updateRetention(arn, version, defined):
         direction = 'DECREASE_DATA_RETENTION'
 
     try:
-        client = boto3.client('kinesisvideo')
+        client = session.client('kinesisvideo', region_name=region) # Set on L6; 'us-east-1- is default
         response = client.update_data_retention(
             StreamARN = arn,
             CurrentVersion = version,
