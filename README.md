@@ -3,7 +3,7 @@ While manually updating ~5k KVS streams sounds exiting, I'm certainly not going 
 
 This repo will allow users to update as many KVS as they want so long as the ARNs are included in the required file; it'll figure out the rest.
 
-The configs are set to look for two conditions only: KVS with retention not set (0 hours) or set for 2 days (48 hours), which we suspect is the bulk of what this specific tool was designed to remediate.  Anything else will be ID'd and output (`kvs-version.json`) for additional mitigation.
+For our purposes, the retention period is being set to 24 hours.
 
 ## Things to keep in mind
 - Set your AWS profile info @ top (using `default` profile and `us-east-1` region as default)
