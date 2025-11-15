@@ -79,8 +79,8 @@ def update_retention(arn, version, adjust_retention, defined):
     return True
 
 
-# If the retention period isn't one of the defaults we're expecting (0, 48), print the stream info
-# out for further processing
+# If the retention period is already 24 hours, print the stream value to non-JSON JSON file
+# (Functional? No.  Easy to read? Yes.)
 def printer(arn, version, retention):
     """ Print stream info to JSON file """
     results = {"ARN:": arn, "Version:": version, "Retention:": retention}
